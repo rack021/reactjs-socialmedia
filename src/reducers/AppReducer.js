@@ -1,6 +1,7 @@
 import * as AppActions from "../actions/AppActions";
 const initialState = {
-  menuOpen: false
+  menuOpen: false,
+  mainMenuList: [{ active: true, name: "Home", icon: "fa-home", link: "profile" }, { active: false, name: "Dashboard", icon: "fa-dashboard", link: "blog" }]
 };
 
 export default function(state = initialState, action) {
@@ -11,6 +12,12 @@ export default function(state = initialState, action) {
       return { ...state, menuOpen: true };
     case AppActions.MIAN_MENU_CLOSE:
       return { ...state, menuOpen: false };
+    case AppActions.MENU_ITEM_CLICK:
+      let meneItemList = state.mainMenuList.map((item, i) => {
+        item.active = item.name === action.itemName ? true : false;
+        return item;
+      });
+      return { ...state, mainMenuList: meneItemList };
   }
   return state;
 }

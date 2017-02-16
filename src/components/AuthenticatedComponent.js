@@ -13,13 +13,14 @@ export function requireAuthentication(Component) {
     }
 
     checkAuth() {
+      let path = this.props.route.path;
       if (!this.props.isAuthenticated) {
-        if (this.props.route.path != "login") {
+        if (path != "login") {
           browserHistory.push("/login");
         }
       } else {
-        if (this.props.route.path != undefined) {
-          browserHistory.push("/");
+        if (path === undefined || path === "login" || path === "register") {
+          browserHistory.push("/profile");
         }
       }
     }

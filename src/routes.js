@@ -11,5 +11,6 @@ export default (
     <IndexRoute component={requireAuthentication(LadingPage)} />
     <Route path="login" component={requireAuthentication(LoginPage)} />
     <Route path="register" component={requireAuthentication(RegisterPage)} />
+    <Route path=":id" component={requireAuthentication(LadingPage)} />
   </Route>
 );

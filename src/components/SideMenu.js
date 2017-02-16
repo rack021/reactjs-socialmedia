@@ -1,28 +1,38 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { mianMenuToggle } from "../actions/AppActions";
+import classnames from "classnames";
+import { mianMenuToggle, menuItemClick } from "../actions/AppActions";
 
 class SideMenu extends Component {
+  constructor(props, context) {
+    super(props, context);
+    this.onClickHandler = this.onClickHandler.bind(this);
+  }
+
+  onClickHandler(item, event) {
+    this.props.menuItemClick(item.name);
+  }
+
   render() {
+    let MenuItems = this.props.menuList.map((item, i) => {
+      let icon = classnames("fa " + item.icon);
+      let active = classnames({ active: item.active });
+      let boundItemClick = this.onClickHandler.bind(this, item);
+      return (
+        <li key={i} className={active}>
+          <a href="javascript:void(0)" onClick={boundItemClick} tag={item.name}>
+            <div className="gui-icon"><i className={icon} /></div>
+            <span className="title">{item.name}</span>
+          </a>
+        </li>
+      );
+    });
     return (
-      <div id="menubar" className="menubar animate">
+      <div id="menubar" className="menubar animate" onMouseEnter={this.props.mianMenuToggle} onMouseLeave={this.props.mianMenuToggle}>
         <div className="nano has-scrollbar">
           <div className="menubar-scroll-panel">
-            <ul id="main-menu" className="gui-controls gui-controls-tree" onMouseEnter={this.props.mianMenuToggle} onMouseLeave={this.props.mianMenuToggle}>
-              <li><small>DIVIDER</small></li>
-              <li className="active">
-                <a href="#" className="active">
-                  <div className="gui-icon"><i className="fa fa-home" /></div>
-                  <span className="title">Home</span>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <div className="gui-icon"><i className="fa fa-dashboard" /></div>
-                  <span className="title">Dashboard</span>
-                </a>
-              </li>
-              ...
+            <ul id="main-menu" className="gui-controls gui-controls-tree">
+              {MenuItems}
             </ul>
           </div>
         </div>
@@ -32,7 +42,9 @@ class SideMenu extends Component {
 }
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    menuList: state.app.mainMenuList
+  };
 }
 
-export default connect(mapStateToProps, { mianMenuToggle })(SideMenu);
+export default connect(mapStateToProps, { mianMenuToggle, menuItemClick })(SideMenu);

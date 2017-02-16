@@ -1,6 +1,7 @@
 export const MIAN_MENU_TOGGLE = "MIAN_MENU_TOGGLE";
 export const MIAN_MENU_CLOSE = "MIAN_MENU_CLOSE";
 export const MIAN_MENU_OPEN = "MIAN_MENU_OPEN";
+export const MENU_ITEM_CLICK = "MENU_ITEM_CLICK";
 
 function menuToggle() {
   return {
@@ -15,6 +16,13 @@ function menuToggleOpen() {
 function menuToggleClose() {
   return {
     type: MIAN_MENU_CLOSE
+  };
+}
+
+function menuItemClickedRequest(itemName) {
+  return {
+    type: MENU_ITEM_CLICK,
+    itemName
   };
 }
 
@@ -35,5 +43,11 @@ export function mianMenuToggle(event, open) {
         dispatch(menuToggleClose());
       }
     }
+  };
+}
+
+export function menuItemClick(itemName) {
+  return dispatch => {
+    dispatch(menuItemClickedRequest(itemName));
   };
 }
